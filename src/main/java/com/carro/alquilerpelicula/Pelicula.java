@@ -7,7 +7,6 @@ public class Pelicula {
     private char genero ;
     private int  precioAlquiler;
     private boolean peliculasEnDescuento;
-    private int descuentoPeliculaEspecial;
 
     public Pelicula(int id, String titulo, String director, char genero, int precioAlquiler, boolean peliculasEnDescuento) {
         this.id = id;
@@ -66,13 +65,7 @@ public class Pelicula {
         this.peliculasEnDescuento = peliculasEnDescuento;
     }
 
-    public int getDescuentoPeliculaEspecial() {
-        return descuentoPeliculaEspecial;
-    }
 
-    public void setDescuentoPeliculaEspecial(int descuentoPeliculaEspecial) {
-        this.descuentoPeliculaEspecial = descuentoPeliculaEspecial;
-    }
 
     // @Override
     // public String toString() {
