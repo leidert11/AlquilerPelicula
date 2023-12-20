@@ -9,14 +9,13 @@ public class Pelicula {
     private boolean peliculasEnDescuento;
     private int descuentoPeliculaEspecial;
 
-    public Pelicula(int id, String titulo, String director, char genero, String precioAlquiler, String peliculasEnDescuento) {
+    public Pelicula(int id, String titulo, String director, char genero, int precioAlquiler, boolean peliculasEnDescuento) {
         this.id = id;
         this.titulo = titulo;
         this.director = director;
         this.genero = genero;
-        this.precioAlquiler = 3000;
+        this.precioAlquiler = precioAlquiler;
         this.peliculasEnDescuento = false;
-        this.descuentoPeliculaEspecial = 0;
     }
 
     public int getId() {
