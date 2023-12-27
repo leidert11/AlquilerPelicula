@@ -3,9 +3,9 @@ package com.carro.alquilerpelicula;
 public class Cliente {
     private String nombre;
     private String  correo ;
-    private String  numeroCelular;
+    private int  numeroCelular;
 
-    public Cliente(String nombre, String correo, String numeroCelular) {
+    public Cliente(String nombre, String correo, int numeroCelular) {
         this.nombre = nombre;
         this.correo = correo;
         this.numeroCelular = numeroCelular;
@@ -27,11 +27,11 @@ public class Cliente {
         this.correo = correo;
     }
 
-    public String getNumeroCelular() {
+    public int getNumeroCelular() {
         return numeroCelular;
     }
 
-    public void setNumeroCelular(String numeroCelular) {
+    public void setNumeroCelular(int numeroCelular) {
         this.numeroCelular = numeroCelular;
     }
 

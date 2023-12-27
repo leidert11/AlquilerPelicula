@@ -4,11 +4,11 @@ public class Pelicula {
     private int id ;
     private String titulo;
     private String director;
-    private char genero ;
+    private String genero ;
     private int  precioAlquiler;
     private boolean peliculasEnDescuento;
 
-    public Pelicula(int id, String titulo, String director, char genero, int precioAlquiler, boolean peliculasEnDescuento) {
+    public Pelicula(int id, String titulo, String director, String genero, int precioAlquiler, boolean peliculasEnDescuento) {
         this.id = id;
         this.titulo = titulo;
         this.director = director;
@@ -41,11 +41,11 @@ public class Pelicula {
         this.director = director;
     }
 
-    public char getGenero() {
+    public String getGenero() {
         return genero;
     }
 
-    public void setGenero(char genero) {
+    public void setGenero(String genero) {
         this.genero = genero;
     }
 
