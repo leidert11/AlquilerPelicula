@@ -35,16 +35,20 @@ public class Cliente {
         this.numeroCelular = numeroCelular;
     }
 
-    //@Override
-    //public String toString() {
-    //   return "Cliente" + "nombre=" +  nombre + "\\n correo=" + correo + "\n numero Celular=" + numeroCelular ;
-   // }
+    @Override
+    public String toString() {
+        return "Cliente" + '\n' +
+                "nombre = " + nombre + '\n' +
+                "correo = " + correo + '\n' +
+                "numeroCelular = " + numeroCelular ;
+    }
     
-public void mostrarInformacion() {
-    System.out.println("Cliente: " + nombre);
-    System.out.println("Correo: " + correo);
-    System.out.println("Numero de celular: " + numeroCelular);
-}
+    
+// public void mostrarInformacion() {
+//     System.out.println("Cliente: " + nombre);
+//     System.out.println("Correo: " + correo);
+//     System.out.println("Numero de celular: " + numeroCelular);
+// }
 
 
     

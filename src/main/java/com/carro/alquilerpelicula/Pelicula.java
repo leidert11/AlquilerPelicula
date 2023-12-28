@@ -67,10 +67,16 @@ public class Pelicula {
 
 
 
-    // @Override
-    // public String toString() {
-    //     return "Pelicula" + "id=" + id + "\n titulo=" + titulo + "\n director=" + director + "\n genero=" + genero + "\n precioAlquiler=" + precioAlquiler + "\n peliculasEnDescuento=" + peliculasEnDescuento + "\n descuento Pelicula Especial=" + descuentoPeliculaEspecial ;
-    // }
+    @Override
+    public String toString() {
+        return "Pelicula " + '\n' +
+                "id = "+ '\n' +
+                "titulo = " + titulo + '\n' +
+                "director = " + director + '\n' +
+                "genero = " + genero + '\n' +
+                "precioAlquiler = " + precioAlquiler + '\n' +
+                "peliculaEnDescuento = " + peliculasEnDescuento ;
+    }
     
     public double calcularPrecio(){
         if (peliculasEnDescuento) {
@@ -80,14 +86,14 @@ public class Pelicula {
             return precioAlquiler;
         }
     }
-    public void mostrarInformacion() {
-    System.out.println("Pelicula: " + titulo);
-    System.out.println("Id: " + id);
-    System.out.println("Director: " + director);
-    System.out.println("Genero: " + genero);
-    System.out.println("Precio de alquiler: " + precioAlquiler);
-    System.out.println("Pelicula en descuento: " + peliculasEnDescuento);
-    System.out.println("Precio total: " + calcularPrecio());
-}
+//     public void mostrarInformacion() {
+//     System.out.println("Pelicula: " + titulo);
+//     System.out.println("Id: " + id);
+//     System.out.println("Director: " + director);
+//     System.out.println("Genero: " + genero);
+//     System.out.println("Precio de alquiler: " + precioAlquiler);
+//     System.out.println("Pelicula en descuento: " + peliculasEnDescuento);
+//     System.out.println("Precio total: " + calcularPrecio());
+// }
 
 }

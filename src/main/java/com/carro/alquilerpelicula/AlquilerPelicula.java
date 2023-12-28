@@ -1,21 +1,11 @@
 package com.carro.alquilerpelicula;
 
-
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.Set;
-
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 
 public class AlquilerPelicula {
 
-    private static final ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-    private static final Validator validator = factory.getValidator();
-
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args)  {
         Scanner scanner = new Scanner(System.in);
         Pelicula pelicula = null;
         Cliente cliente = null;
@@ -37,10 +27,14 @@ public class AlquilerPelicula {
         int opcion = scanner.nextInt();
         scanner.nextLine();
         switch (opcion) {
-            case 1:
+        case 1:
         System.out.print("Ingrese el id de la película: ");
         int id = scanner.nextInt();
         scanner.nextLine();
+        if (!Validaciones.validarIdUnico(id, listaPeliculas)) {
+            System.out.println("Ya existe una película con ese ID. Intente con otro.");
+            break;
+        }
         System.out.print("Ingrese el título de la película: ");
         String titulo = scanner.nextLine();
         System.out.print("Ingrese el director de la película: ");
@@ -50,93 +44,73 @@ public class AlquilerPelicula {
         System.out.print("Ingrese el precio de alquiler de la película: ");
         int precioAlquiler = scanner.nextInt();
         scanner.nextLine();
-        System.out.print("Ingrese si la película está en descuento (true o false): ");
-        boolean peliculaEnDescuento = scanner.nextBoolean();
-        scanner.nextLine();
+        System.out.print("Ingrese si la película está en descuento (si o no): ");
+        String peliculaEnDescuentoStr = scanner.nextLine();
+        boolean peliculaEnDescuento = Validaciones.validarDescuento(peliculaEnDescuentoStr);
         pelicula = new Pelicula(id, titulo, director, genero, precioAlquiler, peliculaEnDescuento);
-        Set<ConstraintViolation<Pelicula>> violations = validator.validate(pelicula);
-        if (violations.isEmpty()) {
-            boolean existe = Validaciones.buscarPeliculaPorId(id, listaPeliculas) != null;
-            if (existe) {
-                System.out.println("Ya existe una película con ese ID. Intente con otro.");
-            } else {
-                listaPeliculas.add(pelicula);
-                System.out.println("Película registrada con éxito.");
-            }
-        } else {
-            for (ConstraintViolation<Pelicula> violation : violations) {
-                System.out.println(violation.getMessage());
-            }
-        }
+        listaPeliculas.add(pelicula);
+        System.out.println("Película registrada con éxito.");
         break;
+
         case 2:
         System.out.print("Ingrese el nombre del cliente: ");
         String nombre = scanner.nextLine();
         System.out.print("Ingrese el correo del cliente: ");
         String correo = scanner.nextLine();
+        if (!Validaciones.validarEmail(correo)) {
+            System.out.println("El correo ingresado no es válido. Intente con otro.");
+            break;
+        }
         System.out.print("Ingrese el número de celular del cliente: ");
         int numeroCelular = scanner.nextInt();
         scanner.nextLine();
+        if (!Validaciones.validarNumeroCelular(numeroCelular)) {
+            System.out.println("El número de celular ingresado no es válido. Intente con otro.");
+            break;
+        }
         cliente = new Cliente(nombre, correo, numeroCelular);
-        Set<ConstraintViolation<Cliente>> violationsCliente = validator.validate(cliente);
-        if (violationsCliente.isEmpty()) {
-            boolean repetido = false;
-            for (Cliente c : listaClientes) {
-                if (c.getCorreo().equals(correo) || c.getNumeroCelular() == numeroCelular) {
-                    repetido = true;
-                    break;
-                }
-            }
-            if (repetido) {
-                System.out.println("Ya existe un cliente con ese correo o número de celular. Intente con otros.");
-            } else {
-                listaClientes.add(cliente);
-                System.out.println("Cliente registrado con éxito.");
-            }
+        listaClientes.add(cliente);
+        System.out.println("Cliente registrado con éxito.");
+        break;
+        case 3:
+        System.out.print("Ingrese el id de la película que quiere alquilar: ");
+        int idPelicula = scanner.nextInt();
+        scanner.nextLine();
+        pelicula = Validaciones.buscarPeliculaPorId(idPelicula, listaPeliculas);
+        if (pelicula ==  null) {
+            System.out.println("id de pelicula no existente ");
         } else {
-            for (ConstraintViolation<Cliente> violation : violationsCliente) {
-                System.out.println(violation.getMessage());
+            System.out.print("Ingrese el nombre del cliente que quiere alquilar la película: ");
+            String nombreCliente  = scanner.nextLine();
+            
+            cliente = Validaciones.buscarClientePorNombre(nombreCliente, listaClientes);
+            
+            if (cliente == null) {
+                System.out.println("no se encontro un cliente con ese nombre");
+            }else{
+                System.out.println("Información del alquiler:");
+                Validaciones.imprimirInformacion(pelicula);
+                Validaciones.imprimirInformacion(cliente);
+                System.out.println("precio total :" + pelicula.calcularPrecio());
+                // Se guarda el alquiler en la lista de alquileres
+                String alquiler = "pelicula : "+ pelicula.getTitulo() + "\n cliente : " + cliente.getNombre()+ "\n precio : "+pelicula.calcularPrecio();
+                listaAlquiler.add(alquiler);
+                System.out.println(" se realizo el alquiler ");
             }
         }
         break;
-    case 3:
-        System.out.print("Ingrese el id de la película que quiere alquilar: ");
-        int idPelicula = scanner.nextInt();
-    scanner.nextLine();
-    pelicula = Validaciones.buscarPeliculaPorId(idPelicula, listaPeliculas);
-    if (pelicula ==  null) {
-        System.out.println("id de pelicula no existente ");
-    } else {
-        System.out.print("Ingrese el nombre del cliente que quiere alquilar la película: ");
-        String nombreCliente  = scanner.nextLine();
-        
-        cliente = Validaciones.buscarClientePorNombre(nombreCliente, listaClientes);
-        
-        if (cliente == null) {
-            System.out.println("no se encontro un cliente con ese noombre");
-        }else{
-            System.out.println("Información del alquiler:");
-            pelicula.mostrarInformacion();
-            cliente.mostrarInformacion();
-            System.out.println("precio total :" + pelicula.calcularPrecio());
-            // Se guarda el alquiler en la lista de alquileres
-            String alquiler = "pelicula : "+ pelicula.getTitulo() + "\n cliente : " + cliente.getNombre()+ "\n precio : "+pelicula.calcularPrecio();
-            listaAlquiler.add(alquiler);
-            System.out.println(" se realizo el alquler ");
-        }
-    }
-            break;
+    
     case 4:
-    System.out.println("ingrese el id de la pelicula que desea buscar ");
-    int idpeliculaVer = scanner.nextInt();
-    scanner.nextLine();
-    pelicula = Validaciones.buscarPeliculaPorId(idpeliculaVer, listaPeliculas);
-    if (pelicula == null) {
-        System.out.println("pelicula no eencontrada");
-    }else{
-        Validaciones.imprimirInformacion(pelicula);
-    }
-    break;
+        System.out.println("ingrese el id de la pelicula que desea buscar ");
+        int idpeliculaVer = scanner.nextInt();
+        scanner.nextLine();
+        pelicula = Validaciones.buscarPeliculaPorId(idpeliculaVer, listaPeliculas);
+        if (pelicula == null) {
+            System.out.println("pelicula no eencontrada");
+        }else{
+            Validaciones.imprimirInformacion(pelicula);
+        }
+        break;
     case 5:
         System.out.println("ingrese el nombre del cliente que desea buscar : ");  
         String nombreVer = scanner.nextLine();
